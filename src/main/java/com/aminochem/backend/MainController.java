@@ -25,7 +25,7 @@ public class MainController {
 		n.setName(name);
 		n.setEmail(email);
 		userRepository.save(n);
-		return "Saved";
+		return "Funciona el Deploy";
 	}
 
 	@GetMapping(path="/all")
