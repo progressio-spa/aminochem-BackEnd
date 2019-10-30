@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -25,6 +26,10 @@ public class UserService {
 
     public User getUser(String username){
     	return repo.findByUsername(username);
+    }
+
+    public List<User> getAllUsers(){
+        return repo.findAll();
     }
 
 }
