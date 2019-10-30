@@ -5,10 +5,7 @@ import com.backend.blog.Services.UserService;
 import com.backend.blog.Services.PostService;
 import com.backend.blog.Entities.Post;
 
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.core.context.SecurityContext;
@@ -53,5 +50,10 @@ public class BlogController{
 		post.setCreator(userService.getUser(username));
 		postService.insert(post);
 		return "Post was published";
+	}
+
+	@GetMapping(value = "/posts/{username}")
+	public List<Post> postsByUsername(@PathVariable String username){
+		 return postService.findByUser(userService.getUser(username));
 	}
 }

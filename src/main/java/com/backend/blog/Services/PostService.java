@@ -1,6 +1,7 @@
 package com.backend.blog.Services;
 
 import com.backend.blog.Entities.Post;
+import com.backend.blog.Entities.User;
 import com.backend.blog.Repositories.PostRepository;
 
 import org.springframework.stereotype.Service;
@@ -20,5 +21,9 @@ public class PostService{
 
 	public void insert(Post post){
 		postRepository.save(post);
+	}
+
+	public List<Post> findByUser(User user){
+		return postRepository.findByCreatorId(user.getId());
 	}
 }
