@@ -1,7 +1,10 @@
 package com.backend.blog.Pojos;
 
 public class UserRegistration{
-	private String username;
+	private String name;
+	private String lastname;
+	private String rut;
+	// private String username;
 	private String password;
 	private String passwordConfirmation;
 
@@ -9,19 +12,46 @@ public class UserRegistration{
 
 	}
 
-	public UserRegistration(String username, String password, String passwordConfirmation){
-		this.username = username;
+	public UserRegistration(String name, String lastname, String rut, /*String username,*/ String password, String passwordConfirmation){
+		this.name = name;
+		this.lastname = lastname;
+		this.rut = rut;
+		// this.username = username;
 		this.password = password;
 		this.passwordConfirmation = passwordConfirmation;
 	}
 
-	public String getUsername(){
-		return this.username;
+	public String getName(){
+		return this.name;
 	}
 
-	public void setUsername(String username){
-		this.username = username;
+	public void setName(String name){
+		this.name = name;
 	}
+
+	public String getLastname(){
+		return this.lastname;
+	}
+
+	public void setLastname(String lastname){
+		this.lastname = lastname;
+	}
+
+	public String getRut(){
+		return this.rut;
+	}
+
+	public void setRut(String rut){
+		this.rut = rut;
+	}
+
+	// public String getUsername(){
+	// 	return this.username;
+	// }
+
+	// public void setUsername(String username){
+	// 	this.username = username;
+	// }
 
 	public String getPassword(){
 		return this.password;

@@ -21,10 +21,13 @@ public class BlogApplication {
     public CommandLineRunner setupDefaultUser(UserService service) {
         return args -> {
             service.save(new User(
-                    "user", //username
-                    "user", //password
-					Arrays.asList(new Role("USER"), new Role("ACTUATOR")),//roles 
-                    1//Active
+                    "Usuario",                                          //name
+                    "Administrador",                                    //lastname
+                    "00.000.000-0",                                     //rut
+                    "admin_username",                                   //username
+                    "admin_password",                                   //password
+					Arrays.asList(new Role("USER"), new Role("ADMIN")), //roles 
+                    1                                                   //active
             ));
         };
     }
