@@ -22,8 +22,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .and()
             .authorizeRequests()
                 .antMatchers("/","/home","/register","/login").permitAll()
-                .antMatchers("/private/**", "/post").authenticated()
-                .antMatchers("/register").hasRole("ADMIN");
+                .antMatchers("/private/**", "/posts").authenticated()
+                .antMatchers("/register", "/post").hasRole("ADMIN");
     }
 
 
