@@ -35,4 +35,10 @@ public class UserService {
         return repo.findAll();
     }
 
+    public void updatePassword(String newPassword, String username){
+        User userToModify = this.getUser(username);
+        userToModify.setPassword(newPassword);
+        repo.save(userToModify);
+    }
+
 }
