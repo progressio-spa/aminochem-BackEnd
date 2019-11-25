@@ -17,7 +17,7 @@ import lombok.ToString;
 public class User extends BaseEntity{
 	private String name;
 	private String lastname;
-	private String rut;
+	// private String rut;
     private String username;
     private String password;
     @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)

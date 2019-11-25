@@ -19,43 +19,51 @@ public class UserController{
 	@Autowired
 	private UserService userService;
 
-	private boolean rutValidation(int rut, int validator){
-		int m = 0, s = 1;
-		for (; rut != 0; rut /= 10) {
-			s = (s + rut % 10 * (9 - m++ % 6)) % 11;
-		}
-		return validator == (char) (s != 0 ? s + 47 : 75);
-	}
+	// private boolean rutValidation(int rut, int validator){
+	// 	int m = 0, s = 1;
+	// 	for (; rut != 0; rut /= 10) {
+	// 		s = (s + rut % 10 * (9 - m++ % 6)) % 11;
+	// 	}
+	// 	return validator == (char) (s != 0 ? s + 47 : 75);
+	// }
 
-	private boolean rutValidation(String rutString){
-		Pattern p;
-		p = Pattern.compile("^([0-9]+-[0-9K])$");
-		Matcher m = p.matcher(rutString);
-		boolean b = m.matches();
+	// private boolean rutValidation(String rutString){
+	// 	Pattern p;
+	// 	p = Pattern.compile("^([0-9]+-[0-9K])$");
+	// 	Matcher m = p.matcher(rutString);
+	// 	boolean b = m.matches();
 
-		if (b){
-			int rut = Integer.parseInt(rutString.split("-")[0]);
-			String validator = rutString.substring(rutString.length() - 1, rutString.length());
+	// 	if (b){
+	// 		int rut = Integer.parseInt(rutString.split("-")[0]);
+	// 		String validator = rutString.substring(rutString.length() - 1, rutString.length());
 
-			if (! rutValidation(rut, validator.toCharArray()[0]))
-				return true;
-			else
-				return false;
+	// 		if (! rutValidation(rut, validator.toCharArray()[0]))
+	// 			return true;
+	// 		else
+	// 			return false;
 
-		} else 
-			return false;
-	}
+	// 	} else 
+	// 		return false;
+	// }
 
-	private String usernameCreation(String name, String lastname, String rut){
-		return name.toLowerCase() + "." + lastname.toLowerCase();
-	}
+	// private String usernameCreation(String name, String lastname, String rut){
+	// 	return name.toLowerCase() + "." + lastname.toLowerCase();
+	// }
+
+   private boolean isValid(String email) {
+      return email.matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$");
+   }
 
 	@PostMapping(value = "/register")
 	public String register(@RequestBody UserRegistration userRegistration){
 		if (! userRegistration.getPassword().equals(userRegistration.getPasswordConfirmation()))
 			return "Passwords doesn't match";
-		// else if (userService.getUser(userRegistration.getUsername()) != null)
-		// 	return "The user already exists!";
+		else if (! isValid(userRegistration.getUsername()))
+			return "The username isn't valid.";
+		else if (! userRegistration.getUsername().equals(userRegistration.getUsernameConfirmation()))
+			return "The username doesn't match";
+		else if (userService.getUser(userRegistration.getUsername()) != null)
+			return "The user already exists!";
 
 		// Here must be an input sanitization.
 
@@ -65,8 +73,9 @@ public class UserController{
 			return "The name can not be blank!";
 		if (userRegistration.getLastname() == null)
 			return "The lastname can not be blank!";
-		if (this.rutValidation(userRegistration.getRut()))
-			return "The rut is incorrect.";
+
+		// if (this.rutValidation(userRegistration.getRut()))
+		// 	return "The rut is incorrect.";
 
 
 
@@ -76,9 +85,9 @@ public class UserController{
 		userService.save(new User(
 			userRegistration.getName(),
 			userRegistration.getLastname(),
-			userRegistration.getRut(),
-			// userRegistration.getUsername(),
-			this.usernameCreation(userRegistration.getName(), userRegistration.getLastname(), userRegistration.getRut()),
+			// userRegistration.getRut(),
+			userRegistration.getUsername(),
+			// this.usernameCreation(userRegistration.getName(), userRegistration.getLastname(), userRegistration.getRut()),
 			userRegistration.getPassword(),
 			Arrays.asList(new Role("USER")),
 			1

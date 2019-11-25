@@ -3,8 +3,9 @@ package com.backend.blog.Pojos;
 public class UserRegistration{
 	private String name;
 	private String lastname;
-	private String rut;
-	// private String username;
+	// private String rut;
+	private String username;
+	private String usernameConfirmation;
 	private String password;
 	private String passwordConfirmation;
 
@@ -12,11 +13,12 @@ public class UserRegistration{
 
 	}
 
-	public UserRegistration(String name, String lastname, String rut, /*String username,*/ String password, String passwordConfirmation){
+	public UserRegistration(String name, String lastname, /*String rut,*/ String username, String usernameConfirmation, String password, String passwordConfirmation){
 		this.name = name;
 		this.lastname = lastname;
-		this.rut = rut;
-		// this.username = username;
+		// this.rut = rut;
+		this.username = username;
+		this.usernameConfirmation = usernameConfirmation;
 		this.password = password;
 		this.passwordConfirmation = passwordConfirmation;
 	}
@@ -37,21 +39,29 @@ public class UserRegistration{
 		this.lastname = lastname;
 	}
 
-	public String getRut(){
-		return this.rut;
-	}
-
-	public void setRut(String rut){
-		this.rut = rut;
-	}
-
-	// public String getUsername(){
-	// 	return this.username;
+	// public String getRut(){
+	// 	return this.rut;
 	// }
 
-	// public void setUsername(String username){
-	// 	this.username = username;
+	// public void setRut(String rut){
+	// 	this.rut = rut;
 	// }
+
+	public String getUsername(){
+		return this.username;
+	}
+
+	public void setUsername(String username){
+		this.username = username;
+	}
+
+	public String getUsernameConfirmation(){
+		return this.usernameConfirmation;
+	}
+
+	public void setUsernameConfirmation(String usernameConfirmation){
+		this.usernameConfirmation = usernameConfirmation;
+	}
 
 	public String getPassword(){
 		return this.password;
