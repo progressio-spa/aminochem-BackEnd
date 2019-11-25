@@ -17,20 +17,20 @@ import java.util.Arrays;
 public class BlogApplication {
 
 
-    @Bean
-    public CommandLineRunner setupDefaultUser(UserService service) {
-        return args -> {
-            service.save(new User(
-                    "Usuario",                                          //name
-                    "Administrador",                                    //lastname
-                    // "00.000.000-0",                                     //rut
-                    "admin@correo.com",                                   //username
-                    "admin_password",                                   //password
-					Arrays.asList(new Role("USER"), new Role("ADMIN")), //roles 
-                    1                                                   //active
-            ));
-        };
-    }
+    // @Bean
+    // public CommandLineRunner setupDefaultUser(UserService service) {
+    //     return args -> {
+    //         service.save(new User(
+    //                 "Usuario",                                          //name
+    //                 "Administrador",                                    //lastname
+    //                 // "00.000.000-0",                                     //rut
+    //                 "admin@correo.com",                                   //username
+    //                 "admin_password",                                   //password
+				// 	Arrays.asList(new Role("USER"), new Role("ADMIN")), //roles 
+    //                 1                                                   //active
+    //         ));
+    //     };
+    // }
     
     @Bean
     public PasswordEncoder getPasswordEncoder(){
