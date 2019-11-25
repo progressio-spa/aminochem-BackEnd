@@ -1,6 +1,7 @@
 package com.backend.blog.Controllers;
 
 import com.backend.blog.Services.UserService;
+import com.backend.blog.Services.EmailService;
 import com.backend.blog.Entities.Role;
 import com.backend.blog.Entities.User;
 import com.backend.blog.Pojos.UserRegistration;
@@ -18,6 +19,9 @@ public class UserController{
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private EmailService emailService;
 
 	// private boolean rutValidation(int rut, int validator){
 	// 	int m = 0, s = 1;
@@ -78,8 +82,6 @@ public class UserController{
 		// 	return "The rut is incorrect.";
 
 
-
-
 		// Here ends the input sanitization.
 
 		userService.save(new User(
@@ -93,6 +95,9 @@ public class UserController{
 			1
 			));
 
+		String[] email = {userRegistration.getUsername()};
+
+		emailService.sendEmail("Administrador", "Registro exitoso!", "Su cuenta se ha creado con éxito, sus credenciales son:\n\nUsuario: " + userRegistration.getUsername() + "\nContraseña: " + userRegistration.getPassword(), email);
 		return "User created sucessfully";
 	}
 
