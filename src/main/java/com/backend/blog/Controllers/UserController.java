@@ -111,11 +111,11 @@ public class UserController{
 	public String displayResetPasswordPage(@RequestParam(required = false) String token){
         PasswordResetToken resetToken = tokenRepository.findByToken(token);
         if (resetToken == null){
-            return "El token no fue enviado."
+            return "El token no fue enviado.";
         } else if (resetToken.isExpired()){
-            return "El token ya expiró. Intente nuevamente."
+            return "El token ya expiró. Intente nuevamente.";
         } else {
-            return "El token está perfecto."
+            return "El token está perfecto.";
         }
 	}
 
