@@ -14,6 +14,6 @@ import lombok.Getter;
 // @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public abstract class BaseEntity implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 }

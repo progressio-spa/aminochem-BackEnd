@@ -2,13 +2,14 @@ package com.backend.blog.Controllers;
 
 import com.backend.blog.Services.UserService;
 import com.backend.blog.Services.EmailService;
+import com.backend.blog.Services.TokenService;
 import com.backend.blog.Entities.Role;
 import com.backend.blog.Entities.User;
 import com.backend.blog.Entities.PasswordResetToken;
 import com.backend.blog.Pojos.UserRegistration;
 import com.backend.blog.dto.UsernameRecoveryRequest;
 import com.backend.blog.dto.PasswordResetDTO;
-import com.backend.blog.Repositories.PasswordResetTokenRepository;
+
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class UserController{
 	private EmailService emailService;
 
 	@Autowired
-	private PasswordResetTokenRepository tokenRepository;
+	private TokenService tokenService;
 
 	private boolean isValid(String email) {
 		return email.matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$");
@@ -95,7 +96,7 @@ public class UserController{
 			token.setToken(UUID.randomUUID().toString());
 			token.setUser(user);
 			token.setExpiryDate(30); // El token tendrá una validez de 30 minutos.
-			tokenRepository.save(token);
+			tokenService.save(token);
 
 			String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/resetPassword?token=" + token.getToken();
 
@@ -109,7 +110,7 @@ public class UserController{
 
 	@GetMapping(value = "/resetPassword")
 	public String displayResetPasswordPage(@RequestParam(required = false) String token){
-        PasswordResetToken resetToken = tokenRepository.findByToken(token);
+        PasswordResetToken resetToken = tokenService.findByToken(token);
         if (resetToken == null){
             return "El token no fue enviado.";
         } else if (resetToken.isExpired()){
@@ -122,24 +123,25 @@ public class UserController{
 	@PostMapping(value = "/resetPassword")
 	@Transactional
 	public String handlePasswordReset(@RequestBody PasswordResetDTO form){
-		PasswordResetToken token = tokenRepository.findByToken(form.getToken());
+		if (form.getToken() == null)
+			return "El token no fue enviado";
+
+
+		PasswordResetToken token = tokenService.findByToken(form.getToken());
 
 		if (form.getPassword() == null || form.getConfirmPassword() == null){
 			return "no se ha ingresado la nueva contraseña.";
 		}
 
-
-
-        if (token == null){
-            return "El token no fue enviado";
-        } else if (token.isExpired()){
-            return "El token ya expiró";
-        } else {
+      if (token.isExpired()){
+          return "El token ya expiró";
+      } else {
 			User user = token.getUser();
 			if (form.getPassword().equals(form.getConfirmPassword())){
 				String updatedPassword = passwordEncoder.encode(form.getPassword());
 				userService.updatePassword(updatedPassword, user.getUsername());
-				tokenRepository.delete(token);
+				tokenService.delete(token);
+				return "Contraseña actualizada exitosamente!";
 			}
 
 			return "Las contraseñas no coinciden.";
